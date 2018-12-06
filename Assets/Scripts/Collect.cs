@@ -5,25 +5,36 @@ using UnityEngine;
 public class Collect : MonoBehaviour {
 
 	//*** Properties
-	public float speedX;
-	public float speedY;
+	public ParticleSystem particlesRegular;
+	public ParticleSystem particlesCollected;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+	//*** Variables
+	private bool collected = false;
+
+	//*** Unity Methods
+	private void OnTriggerEnter(Collider collision) {
+
+		//*** IF not alreay collected
+		if(!collected) {
 	
-	// Update is called once per frame
-	void Update () {
+			//*** Try to get teh player object
+			Player player = collision.gameObject.GetComponent<Player>();
+	
+			//*** if the player object is valid
+			if(player != null){
 
-		//*** Get the directional input
-		float xHorizontal = Input.GetAxis("Horizontal");
-		float xVertical = Input.GetAxis("Vertical");
+				//*** Set Collected
+				collected = true;
 
-		//*** Update the position
-		Vector3 vPosition = transform.position;
-		vPosition.x += xHorizontal * Time.deltaTime * speedX;
-		vPosition.z += xVertical * Time.deltaTime * speedY;
-		transform.position = vPosition;
+				//*** Turn off regular and play collected
+				particlesRegular.Stop();
+				particlesCollected.Play();
+
+				//*** Give player score
+				Game.instance.GiveScore();
+			}
+		}
+	}
+	private void OnCollisionEnter(Collision collision) {
 	}
 }
