@@ -9,10 +9,10 @@ public class Game : MonoBehaviour {
 	public static Game instance;
 
 	//*** Properties
-	public TextMeshPro textScore;
+	public TextMeshPro[] textScores;
 
 	//*** Variables
-	private int score = 0;
+	private int[] scores = new int[] {0, 0};
 
 	//*** Unity Methods
 	private void Awake() {
@@ -23,7 +23,8 @@ public class Game : MonoBehaviour {
 	private void Start () {
 
 		//*** Reset score
-		score = 0;
+		SetScore(0, 0);
+		SetScore(1, 0);
 
 		//*** Draw score
 		RenderScore();
@@ -31,12 +32,20 @@ public class Game : MonoBehaviour {
 	
 	//*** Main Methods
 	private void RenderScore() {
-		textScore.text = score.ToString();
+
+		for(int i=0; i<textScores.Length; i++) {
+			textScores[i].text = scores[i].ToString("###,##0");
+		}
 	}
-	public void GiveScore() {
+	public void GiveScore(int pIndex) {
 
 		//*** Give score and show
-		score++;
+		scores[pIndex]++;
 		RenderScore();
+	}
+	private void SetScore(int pIndex, int pScore) {
+
+		//*** Give score and show
+		scores[pIndex] = pScore;
 	}
 }

@@ -31,7 +31,11 @@ public class Collect : MonoBehaviour {
 				particlesCollected.Play();
 
 				//*** Give player score
-				Game.instance.GiveScore();
+				Game.instance.GiveScore(player.playerIndex);
+
+
+				AudioSource oAudio = GetComponent<AudioSource>();
+				oAudio.Play();
 			}
 		}
 	}
